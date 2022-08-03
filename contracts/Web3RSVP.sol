@@ -28,4 +28,9 @@ contract Web3RSVP{
         bool isPaid;
     }
 
+
+    // link an eID to an Event struct using mapping
+    mapping(bytes32 => Event) public EventRegistrants;
+
+
 }
