@@ -32,5 +32,21 @@ contract Web3RSVP{
     // link an eID to an Event struct using mapping
     mapping(bytes32 => Event) public idToEventMapping;
 
+    // Create function to add an event
+    // data passed my front-end: event data CID, start time, capacity, deposit amount
+    function createEvent(string calldata eDataCID, uint256 eTimeStart, uint256 eCapacity, uint256 eDepositAmount) external{
+        // eID generated usisng keccak256 hashing with a bunch of things
+        bytes32 eID = keccak256(abi.encodePacked(msg.sender, address(this), eTimeStart, eCapacity, eDepositAmount ));
+        // set eCreator with address of whoever called this function   
+        address eCreator = msg.sender;
+        // Initialise array and bool for struct creation
+        address[] memory eRegistrants;
+        address[] memory eAttendees;
+        bool isPaid = false;
+
+        // uses mapping to map and create struct when this function is called
+        idToEventMapping[eID] = Event(eID, eDataCID, eCreator, eTimeStart, eCapacity, eDepositAmount, eRegistrants, eAttendees, isPaid);
+    }
+
 
 }
