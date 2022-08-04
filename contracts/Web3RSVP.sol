@@ -72,6 +72,9 @@ contract Web3RSVP{
         // After all checks, push the registrant's address to the required array
         thisEvent.eRegistrants.push(payable(msg.sender));
 
+        // How does the contract know how much ETH to use?
+        // If we have 1000s of registrants, wouldn't a for loop be slow?
+        // Should there be a mechanism in place to check if eID passed exists? 
         
     }
 
