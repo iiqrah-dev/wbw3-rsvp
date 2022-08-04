@@ -30,7 +30,7 @@ contract Web3RSVP{
 
 
     // link an eID to an Event struct using mapping
-    mapping(bytes32 => Event) public EventRegistrants;
+    mapping(bytes32 => Event) public idToEventMapping;
 
 
 }
