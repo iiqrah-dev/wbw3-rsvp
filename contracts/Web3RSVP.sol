@@ -78,5 +78,51 @@ contract Web3RSVP{
         
     }
 
+    function checkInRegistrant (bytes32 eID, address registrant) public {
+
+        Event storage thisEvent = idToEventMapping[eID];
+
+        // Extension: Allow more people to check-in attendees
+        // Only allow event creator to check-in attendees
+        require(msg.sender == thisEvent.eCreator, 'Only event creator can check-in attendees!');
+
+
+        // Check if registrant already checked-in
+        for (uint8 i=0; i< thisEvent.eAttendees.length; i++){
+            require (thisEvent.eAttendees[i] != registrant, 'You are already checked-in!');
+        }
+
+
+        // Check if registrant address is in eRegistrants [] 
+        address attendeeAddress; 
+
+        for (uint8 i =0; i < thisEvent.eRegistrants.length; i++){
+            if (thisEvent.eRegistrants[i] == registrant){
+                attendeeAddress = registrant;
+            }
+        }
+
+        require(attendeeAddress == registrant, 'You did not register for this event!');
+
+
+        // Check if deposit already claimed by event creator
+        require(thisEvent.isPaid == false, 'Event owner already claimed the remaining deposit!');
+
+        // After all checks, push the attendee/registrant address in eAttendees []
+        thisEvent.eAttendees.push(attendeeAddress);
+
+        // used for sending ETH to an address
+        (bool sent,) = attendeeAddress.call{value: thisEvent.eDepositAmount}("");
+
+        // if sent failed, take the attendee pushed just now out of the array
+        if (!sent){
+            thisEvent.eAttendees.pop();
+        }
+
+        // Send message about check-in and deposit refund fail
+        require(sent, 'Failed to check-in attendee, try again.');
+
+    }
+
 
 }
