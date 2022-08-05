@@ -55,8 +55,8 @@ contract Web3RSVP{
         // use eID to check Event mapping and get that struct for this function
         Event storage thisEvent = idToEventMapping[eID];
 
-        // Check if event has started yet?
-        require(block.timestamp < thisEvent.eTimeStart, 'Too late to register');
+        // Check if it has been less than 1 hour since event started
+        require(block.timestamp <= thisEvent.eTimeStart + 30 minutes, 'Too late to register');
 
         // Check if event capacity is reached yet?
         require(thisEvent.eRegistrants.length < thisEvent.eCapacity, 'Max capacity reached');
