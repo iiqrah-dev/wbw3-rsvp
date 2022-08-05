@@ -38,7 +38,12 @@ const main = async () => {
   // call addNewRegistrant() function as a contract transaction
   txn = await rsvpcontract.addNewRegistrant(eID, { value: eDepositAmount });
   wait = await txn.wait();
-  console.log(wait);
+  console.log(wait.events[0].args);
+
+  // call addNewRegistrant with same address to check failure
+  txn = await rsvpcontract.addNewRegistrant(eID, { value: eDepositAmount });
+  wait = await txn.wait();
+  // console.log(wait.events[0].args);
 };
 
 const runMain = async () => {
