@@ -29,10 +29,16 @@ const main = async () => {
   // console.log("New event created: ", wait);
 
   // print the data that is sent back from emit event after functional call
-  console.log(wait.events[0].args);
+  // console.log(wait.events[0].args);
 
   // print eventID
-  console.log("Event ID: ", wait.events[0].args.eID);
+  let eID = wait.events[0].args.eID;
+  console.log("Event ID: ", eID);
+
+  // call addNewRegistrant() function as a contract transaction
+  txn = await rsvpcontract.addNewRegistrant(eID);
+  wait = await txn.wait();
+  console.log(wait);
 };
 
 const runMain = async () => {
