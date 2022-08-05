@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 const main = async () => {
   // use hardhat (hre) to deploy contract locally
-  const rsvpcontractFactory = await hre.ethers.contractFactory("Web3RSVP");
+  const rsvpcontractFactory = await hre.ethers.getContractFactory("Web3RSVP");
   const rsvpcontract = await rsvpcontractFactory.deploy();
   rsvpcontract.deployed();
   console.log("Contract deployed to: ", rsvpcontract.address);
