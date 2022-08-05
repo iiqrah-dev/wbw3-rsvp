@@ -4,6 +4,7 @@
   "description": "Web3 version of Eventbrit with stakes involved",
   "main": "index.js",
   "scripts": {
+    "script": "node test/Web3RSVP.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
