@@ -36,7 +36,7 @@ const main = async () => {
   console.log("Event ID: ", eID);
 
   // call addNewRegistrant() function as a contract transaction
-  txn = await rsvpcontract.addNewRegistrant(eID);
+  txn = await rsvpcontract.addNewRegistrant(eID, { value: eDepositAmount });
   wait = await txn.wait();
   console.log(wait);
 };
