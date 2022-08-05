@@ -58,6 +58,11 @@ const main = async () => {
     .addNewRegistrant(eID, { value: eDepositAmount });
   wait = await txn.wait();
   console.log(wait.events[0].args);
+
+  // call checkInAllRegistrants()
+  txn = await rsvpcontract.checkInAllRegistrants(eID);
+  wait = await txn.wait();
+  console.log(wait.events);
 };
 
 const runMain = async () => {
