@@ -4,6 +4,7 @@ pragma solidity ^0.8.4;
 contract Web3RSVP{
 
     // be picky about the data you store on-chain as it is expensive!
+
     // eDataCID to store event name, description etc
     // only store data that is required for on-chain functionality 
     struct Event{
@@ -32,6 +33,15 @@ contract Web3RSVP{
     // link an eID to an Event struct using mapping
     mapping(bytes32 => Event) public idToEventMapping;
 
+
+    event NewEventCreated(bytes32 eID, string eDataCID, address eCreator, uint256 eTimeStart, uint256 eCapacity, uint256 eDepositAmount);
+
+    event NewRegistrantAdded(bytes32 eID, address registrantAddress);
+
+    event NewAttendeeCheckIn(bytes32 eID, address attendeeAddress);
+
+    event UnclaimedDepositPaidOut(bytes32 eID, uint256 unclaimedDepositAmount);
+
     // Create function to add an event
     // data passed my front-end: event data CID, start time, capacity, deposit amount
     function createEvent(string calldata eDataCID, uint256 eTimeStart, uint256 eCapacity, uint256 eDepositAmount) external{
@@ -46,6 +56,9 @@ contract Web3RSVP{
 
         // uses mapping to map and create struct when this function is called
         idToEventMapping[eID] = Event(eID, eDataCID, eCreator, eTimeStart, eCapacity, eDepositAmount, eRegistrants, eAttendees, isPaid);
+
+        emit NewEventCreated(eID, eDataCID, eCreator, eTimeStart, eCapacity, eDepositAmount);
+
     }
 
     // Create function to add registrants by using eID to identify which event they want to get added to
@@ -71,6 +84,8 @@ contract Web3RSVP{
 
         // After all checks, push the registrant's address to the required array
         thisEvent.eRegistrants.push(payable(msg.sender));
+
+        emit NewRegistrantAdded(eID, msg.sender);
 
         // How does the contract know how much ETH to use?
         // If we have 1000s of registrants, wouldn't a for loop be slow?
@@ -121,6 +136,8 @@ contract Web3RSVP{
 
         // Send message about check-in and deposit refund fail
         require(sent, 'Failed to check-in attendee, try again.');
+
+        emit NewAttendeeCheckIn(eID, attendeeAddress);
 
     }
 
@@ -173,6 +190,10 @@ contract Web3RSVP{
         }
 
         require(sent, 'Failed to process unclaimed deposit, try again');
+
+
+        emit UnclaimedDepositPaidOut(eID, unclaimedAmount);
+
 
 
     }
