@@ -30,6 +30,9 @@ const main = async () => {
 
   // print the data that is sent back from emit event after functional call
   console.log(wait.events[0].args);
+
+  // print eventID
+  console.log("Event ID: ", wait.events[0].args.eID);
 };
 
 const runMain = async () => {
