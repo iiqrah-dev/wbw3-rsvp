@@ -62,7 +62,10 @@ const main = async () => {
   // call checkInAllRegistrants()
   txn = await rsvpcontract.checkInAllRegistrants(eID);
   wait = await txn.wait();
-  console.log(wait.events);
+  // console.log(wait.events);
+  wait.events.forEach((event) =>
+    console.log("Check in complete for attendee: ", event.args.attendeeAddress)
+  );
 };
 
 const runMain = async () => {
