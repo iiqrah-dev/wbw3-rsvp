@@ -40,10 +40,17 @@ const main = async () => {
   wait = await txn.wait();
   console.log(wait.events[0].args);
 
-  // call addNewRegistrant with same address to check failure
-  txn = await rsvpcontract.addNewRegistrant(eID, { value: eDepositAmount });
+  // // call addNewRegistrant with same address to check failure
+  // txn = await rsvpcontract.addNewRegistrant(eID, { value: eDepositAmount });
+  // wait = await txn.wait();
+  // // console.log(wait.events[0].args);
+
+  // call addNewRegistrant with adddress1
+  txn = await rsvpcontract
+    .connect(add1)
+    .addNewRegistrant(eID, { value: eDepositAmount });
   wait = await txn.wait();
-  // console.log(wait.events[0].args);
+  console.log(wait.events[0].args);
 };
 
 const runMain = async () => {
