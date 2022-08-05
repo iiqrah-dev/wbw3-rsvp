@@ -50,7 +50,7 @@ contract Web3RSVP{
 
     // Create function to add registrants by using eID to identify which event they want to get added to
     // Make it payable as ETH is required to put as stake to register
-    function addRegistrant(bytes32 eID) external payable{
+    function addNewRegistrant(bytes32 eID) external payable{
 
         // use eID to check Event mapping and get that struct for this function
         Event storage thisEvent = idToEventMapping[eID];
