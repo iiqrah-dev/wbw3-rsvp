@@ -8,7 +8,7 @@ const main = async () => {
   console.log("Contract deployed to: ", rsvpcontract.address);
 
   // get addresses from hardhat to test contract functionality
-  const [deployer, add1, add2] = hre.ethers.getSigners();
+  const [deployer, add1, add2] = await hre.ethers.getSigners();
 
   // Declare and assign values needed for createEvent() function call
   let eDataCID = "bafybeibhwfzx6oo5rymsxmkdxpmkfwyvbjrrwcl7cekmbzlupmp5ypkyfi";
