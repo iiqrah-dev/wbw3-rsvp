@@ -26,7 +26,10 @@ const main = async () => {
   // log all the data from createEvent() function call inside wait
   let wait = await txn.wait();
   // print the contents that we get back from createEvent() function call
-  console.log("New event created: ", wait);
+  // console.log("New event created: ", wait);
+
+  // print the data that is sent back from emit event after functional call
+  console.log(wait.events[0].args);
 };
 
 const runMain = async () => {
