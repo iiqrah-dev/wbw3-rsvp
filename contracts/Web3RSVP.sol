@@ -125,4 +125,22 @@ contract Web3RSVP{
     }
 
 
+    function checkInAllRegistrants(bytes32 eID) public {
+
+        Event storage thisEvent = idToEventMapping[eID];
+
+        // Check if address calling this function is event creator
+        require(msg.sender == thisEvent.eCreator, 'Only event creator can check-in attendees!');
+
+        // Use pcheck-in function in a loop to check-in all registrants
+        for (uint8 i=0; i< thisEvent.eRegistrants.length; i++){
+            checkInRegistrant(eID, thisEvent.eRegistrants[i]);
+        }
+
+    }
+
+
+
+
+
 }
