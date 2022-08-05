@@ -140,6 +140,44 @@ contract Web3RSVP{
     }
 
 
+    function withdrawUnclaimedDeposit(bytes32 eID) public {
+
+        Event storage thisEvent = idToEventMapping[eID];
+
+        // Check if function is called by event creator
+        require(msg.sender == thisEvent.eCreator, "Deposit can only be claimed my event creator");
+
+        // Check if deposit already paid out?
+        require(thisEvent.isPaid == false, "Unclaimed deposit already withdrawn");
+
+        // Check if this function only being called after one week of event
+        require(block.timestamp >= thisEvent.eTimeStart + 7 days, 'Cannot claim deposit until one week has passed.');
+
+        // Check if unclaimed registrants left
+        require(thisEvent.eRegistrants.length != thisEvent.eAttendees.length, 'No unclaimed deposit left');
+
+        // Find number of registrants that did not attend
+        uint256 unclaimedRegistrants = thisEvent.eRegistrants.length - thisEvent.eAttendees.length;
+        // Multiply non-attendees to deposit amount to find unclaimed amount
+        uint256 unclaimedAmount = unclaimedRegistrants * thisEvent.eDepositAmount;
+
+        // Set isPaid to true
+        thisEvent.isPaid = true;
+
+        // Send ETH to creator
+        (bool sent, ) = msg.sender.call{value: unclaimedAmount}("");
+
+        // If issues in sending, revert back the transaction
+        if(!sent){
+            thisEvent.isPaid = false;
+        }
+
+        require(sent, 'Failed to process unclaimed deposit, try again');
+
+
+    }
+
+
 
 
 
