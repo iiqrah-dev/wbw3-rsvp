@@ -6,6 +6,9 @@ const main = async () => {
   const contract = await contractFactory.deploy();
   contract.deployed();
   console.log("Contract deployed to: ", contract.address);
+
+  // get addresses from hardhat to test contract functionality
+  const [deployer, add1, add2] = hre.ethers.getSigners();
 };
 
 const runMain = async () => {
