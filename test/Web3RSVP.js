@@ -8,7 +8,7 @@ const main = async () => {
   console.log("Contract deployed to: ", rsvpcontract.address);
 
   // get addresses from hardhat to test contract functionality
-  const [deployer, add1, add2] = await hre.ethers.getSigners();
+  const [deployer, add1, add2, add3] = await hre.ethers.getSigners();
 
   // Declare and assign values needed for createEvent() function call
   let eDataCID = "bafybeibhwfzx6oo5rymsxmkdxpmkfwyvbjrrwcl7cekmbzlupmp5ypkyfi";
@@ -67,6 +67,12 @@ const main = async () => {
     console.log("Check in complete for attendee: ", event.args.attendeeAddress)
   );
 
+  // call addNewRegistrant with adddress3
+  txn = await rsvpcontract
+    .connect(add3)
+    .addNewRegistrant(eID, { value: eDepositAmount });
+  wait = await txn.wait();
+
   // wait 1 month
   // To create timestamp, use: https://www.unixtimestamp.com/
   await hre.network.provider.send("evm_increaseTime", [1662411782]);
@@ -74,7 +80,7 @@ const main = async () => {
   // call withdrawUnclaimedDeposit()
   txn = await rsvpcontract.withdrawUnclaimedDeposit(eID);
   wait = await txn.wait();
-  console.log(wait.events[0].args);
+  console.log(wait.events[0].args.unclaimedDepositAmount);
 };
 
 const runMain = async () => {
