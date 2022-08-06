@@ -67,6 +67,10 @@ const main = async () => {
     console.log("Check in complete for attendee: ", event.args.attendeeAddress)
   );
 
+  // wait 1 month
+  // To create timestamp, use: https://www.unixtimestamp.com/
+  await hre.network.provider.send("evm_increaseTime", [1662411782]);
+
   // call withdrawUnclaimedDeposit()
   txn = await rsvpcontract.withdrawUnclaimedDeposit(eID);
   wait = await txn.wait();
