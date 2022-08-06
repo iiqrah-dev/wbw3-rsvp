@@ -66,6 +66,11 @@ const main = async () => {
   wait.events.forEach((event) =>
     console.log("Check in complete for attendee: ", event.args.attendeeAddress)
   );
+
+  // call withdrawUnclaimedDeposit()
+  txn = await rsvpcontract.withdrawUnclaimedDeposit(eID);
+  wait = await txn.wait();
+  console.log(wait.events[0].args);
 };
 
 const runMain = async () => {
